@@ -41,8 +41,8 @@ export default function Navbar() {
     { href: "/dashboard/add-product", label: "Add Product" }, // protected
   ];
   return (
-    <header className="backdrop-blur-sm sticky top-0 z-50">
-         <div className="max-w-6xl bg-[white] dark:bg-[#292b51] container mx-auto rounded-full mt-6 px-4 sm:px-6 lg:px-8">
+    <header className="backdrop-blur-sm sticky top-0 z-50 px-4">
+         <div className="max-w-11/12 bg-[white] dark:bg-[#292b51] container mx-auto rounded-full mt-6 px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-16">
           {/* Brand */}
           <div className=" flex-shrink-0 font-extrabold text-3xl text-[#2a4ba7] dark:text-[#b8d9ff]">

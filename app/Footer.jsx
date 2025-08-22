@@ -106,7 +106,7 @@ export default function Footer() {
 
   return (
     <footer className="py-12 px-4 sm:px-6 lg:px-8 relative overflow-hidden bg-[#002147] dark:bg-[#292b51] ">
-      <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center relative z-10">
+      <div className="max-w-11/12 mx-auto flex flex-col md:flex-row items-center relative z-10">
         {/* Brand mark with gradient shape */}
         <div className="mb-6 ">
           <span className="text-3xl font-extrabold font-brand tracking-wide text-[#e3e3ed] dark:text-[#b8d9ff]">
