@@ -1,6 +1,5 @@
-// app/Page.jsx
-
 import HeroCarousel from "./components/HeroCarousel";
+import ProductHighlights from "./components/ProductHighlights";
 
 export default function HomePage() {
   const slides = [
@@ -33,7 +32,8 @@ export default function HomePage() {
 
   return (
     <main className="max-w-11/12 mx-auto rounded-2xl px-4">
-      <HeroCarousel slides={slides}  fit="cover" className="mt-6" />
+      <HeroCarousel slides={slides} fit="cover" className="mt-6" />
+      <ProductHighlights />
     </main>
   );
 }

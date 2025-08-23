@@ -72,3 +72,20 @@ html.dark {
 }
 
 .cta-btn:hover::before { transform: translate3d(100%, 0, 0); }
+
+/* Product Highlights marquee */
+@keyframes marquee {
+  0% { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+.marquee-mask {
+  -webkit-mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+  mask-image: linear-gradient(to right, transparent, black 10%, black 90%, transparent);
+}
+.marquee-track {
+  animation: marquee 28s linear infinite;
+  will-change: transform;
+}
+.group:hover .marquee-track {
+  animation-play-state: paused;
+}
