@@ -26,7 +26,7 @@ export default async function ProductHighlights() {
   }
 
   const Card = ({ p }) => (
-    <div className="min-w-[220px] sm:min-w-[260px] bg-white dark:bg-[#292b51] rounded-xl p-4 shadow flex-shrink-0">
+    <div className="min-w-[220px] sm:min-w-[260px] bg-white dark:bg-[#191923] rounded-xl p-4 border border-[#2a4ba7] shadow-[#b8d9ff] flex-shrink-0">
       {p.image ? (
         <img
           src={p.image}

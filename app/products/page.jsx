@@ -18,13 +18,13 @@ export default async function ProductsPage({ searchParams }) {
 
   return (
     <div className="max-w-6xl mx-auto p-4">
-      <h1 className="text-3xl text-center mt-6 md:mt-8 font-bold mb-6 md:mb-8 text-[#2a4ba7] dark:text-[#b8d9ff]">
+      <h1 className="text-4xl text-center mt-6 md:mt-8 font-bold mb-6 md:mb-8 text-[#2a4ba7] dark:text-[#b8d9ff]">
         {category ? `Products — ${category}` : "All Products"}
       </h1>
 
       <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
         {items.map((p) => (
-          <div key={p._id.toString()} className="bg-white dark:bg-[#292b51] rounded-xl p-4 shadow">
+          <div key={p._id.toString()} className="bg-white dark:bg-[#191923] rounded-xl p-4 shadow">
             {p.image ? (
               <img
                 src={p.image}

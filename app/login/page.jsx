@@ -1,82 +1,24 @@
-"use client";
+// app/login/page.jsx
+import { Suspense } from "react";
+import LoginClient from "./LoginClient";
 
-import { useState } from "react";
-import { signIn } from "next-auth/react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
+export const dynamic = "force-dynamic"; // avoids prerendering issues
 
 export default function LoginPage() {
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState("");
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get("callbackUrl") || "/";
-
-  async function onSubmit(e) {
-    e.preventDefault();
-    setError("");
-    setLoading(true);
-
-    const form = new FormData(e.currentTarget);
-    const email = form.get("email");
-    const password = form.get("password");
-
-    const res = await signIn("credentials", {
-      email,
-      password,
-      redirect: false,
-      callbackUrl,
-    });
-
-    setLoading(false);
-
-    if (res?.ok) {
-      router.push(res.url || callbackUrl);
-    } else {
-      setError("Invalid email or password");
-    }
-  }
-
   return (
-    <div className="max-w-md mx-auto mt-12 bg-white dark:bg-[#292b51] rounded-xl p-6 shadow">
-      <h1 className="text-2xl font-bold mb-4 text-[#2a4ba7] dark:text-[#b8d9ff]">Login</h1>
-
-      {error ? <p className="mb-3 text-red-600">{error}</p> : null}
-
-      <form onSubmit={onSubmit} className="space-y-4">
-        <div>
-          <label className="block mb-1">Email</label>
-          <input
-            name="email"
-            type="email"
-            required
-            className="w-full rounded-md border px-3 py-2 bg-white dark:bg-[#12121c]"
-            placeholder="you@example.com"
-          />
+    <Suspense
+      fallback={
+        <div className="max-w-md mx-auto mt-12 bg-white dark:bg-[#292b51] rounded-xl p-6 shadow">
+          <div className="h-6 w-40 bg-gray-200 dark:bg-gray-700 rounded mb-6" />
+          <div className="space-y-3">
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+            <div className="h-10 bg-gray-200 dark:bg-gray-700 rounded" />
+          </div>
         </div>
-
-        <div>
-          <label className="block mb-1">Password</label>
-          <input
-            name="password"
-            type="password"
-            required
-            className="w-full rounded-md border px-3 py-2 bg-white dark:bg-[#12121c]"
-            placeholder="••••••••"
-          />
-        </div>
-
-        <button type="submit" className="cta-btn w-full shadow shadow-[#2a4ba7] dark:shadow-[#b8d9ff]" disabled={loading}>
-          <span>{loading ? "Signing in..." : "Sign in"}</span>
-        </button>
-      </form>
-
-      <p className="mt-4 text-center">
-        Don&apos;t have an account?{" "}
-        <Link href="/register" className="underline text-[#2a4ba7] dark:text-[#b8d9ff]">
-          Register
-        </Link>
-      </p>
-    </div>
+      }
+    >
+      <LoginClient />
+    </Suspense>
   );
 }

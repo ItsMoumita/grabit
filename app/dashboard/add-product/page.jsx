@@ -12,7 +12,7 @@ export default async function AddProductPage() {
 
   return (
     <div className="max-w-xl mx-auto p-4">
-      <h1 className="text-3xl font-bold mb-4 text-[#2a4ba7] dark:text-[#b8d9ff]">Add Product</h1>
+      <h1 className="text-4xl text-center font-bold mb-4 text-[#2a4ba7] dark:text-[#b8d9ff]">Add Product</h1>
       <AddProductForm />
     </div>
   );

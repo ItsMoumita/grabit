@@ -4,6 +4,9 @@ import React, { useState } from "react";
 import Link from "next/link";
 import { ThemeToggle } from "./ThemeToggle";
 import { useSession, signOut } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 // Icons
 const MenuIcon = ({ className }) => (
@@ -28,6 +31,40 @@ export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const { data: session, status } = useSession();
   const isAuthed = status === "authenticated";
+  const router = useRouter();
+
+  function getSwalTheme() {
+    const isDark =
+      typeof document !== "undefined" &&
+      (document.documentElement.classList.contains("dark") ||
+        document.documentElement.getAttribute("data-theme") === "dark");
+
+    return {
+      background: isDark ? "#292b51" : "#ffffff",
+      color: isDark ? "#eaf3f6" : "#091215",
+      iconColor: isDark ? "#b8d9ff" : "#2a4ba7",
+      buttonsStyling: false,
+      customClass: { popup: "rounded-2xl shadow-lg" },
+    };
+  }
+
+  const handleSignOut = async () => {
+    setIsMenuOpen(false);
+    // sign out without redirect, then show alert and navigate
+    await signOut({ redirect: false });
+    await Swal.fire({
+      ...getSwalTheme(),
+      icon: "success",
+      title: "Signed out",
+      text: "See you soon!",
+      showConfirmButton: false,
+      timer: 1000,
+      timerProgressBar: true,
+      allowOutsideClick: false,
+      allowEscapeKey: false,
+    });
+    router.push("/");
+  };
 
   const navLinks = [
     { href: "/", label: "Home" },
@@ -76,7 +113,7 @@ export default function Navbar() {
               </>
             ) : (
               <button
-                onClick={() => signOut({ callbackUrl: "/" })}
+                onClick={handleSignOut}
                 className="hidden sm:inline-flex items-center justify-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-[#2a4ba7] dark:bg-white text-white dark:text-gray-900 hover:bg-[#2a4ba7]/90 dark:hover:bg-gray-100 transition-colors"
               >
                 Sign out
@@ -138,10 +175,7 @@ export default function Navbar() {
               </>
             ) : (
               <button
-                onClick={() => {
-                  setIsMenuOpen(false);
-                  signOut({ callbackUrl: "/" });
-                }}
+                onClick={handleSignOut}
                 className="block w-full mt-2 text-center rounded-md text-sm font-medium h-10 px-4 py-2 bg-[#2a4ba7] dark:bg-white text-white dark:text-gray-900 hover:bg-[#2a4ba7]/90 dark:hover:bg-gray-100 transition-colors"
               >
                 Sign out

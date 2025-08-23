@@ -24,7 +24,7 @@ export default async function ProductDetailPage({ params }) {
                 ← Back to products
             </Link>
 
-            <div className="mt-4 grid gap-6 md:grid-cols-2 bg-white dark:bg-[#292b51] rounded-xl p-6 shadow">
+            <div className="mt-4 grid gap-6 md:grid-cols-2 bg-white dark:bg-[#191923] rounded-xl p-6 shadow">
                 {product.image ? (
                     <img
                         src={product.image}

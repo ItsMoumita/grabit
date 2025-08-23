@@ -1,12 +1,32 @@
+// app/dashboard/add-product/AddProductForm.jsx
 "use client";
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.min.css";
 
 export default function AddProductForm() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const router = useRouter();
+
+  function getSwalTheme() {
+    const isDark =
+      typeof document !== "undefined" &&
+      (document.documentElement.classList.contains("dark") ||
+        document.documentElement.getAttribute("data-theme") === "dark");
+
+    return {
+      background: isDark ? "#292b51" : "#ffffff",
+      color: isDark ? "#eaf3f6" : "#091215",
+      iconColor: isDark ? "#b8d9ff" : "#2a4ba7",
+      buttonsStyling: false,
+      customClass: {
+        popup: "rounded-2xl shadow-lg",
+      },
+    };
+  }
 
   async function onSubmit(e) {
     e.preventDefault();
@@ -20,7 +40,7 @@ export default function AddProductForm() {
       category: form.get("category"),
       image: form.get("image"),
       description: form.get("description"),
-      details: form.get("details"), // <- NEW
+      details: form.get("details"),
     };
 
     const res = await fetch("/api/products", {
@@ -32,15 +52,27 @@ export default function AddProductForm() {
     setLoading(false);
 
     if (res.ok) {
+      await Swal.fire({
+        ...getSwalTheme(),
+        icon: "success",
+        title: "Product added",
+        text: "Redirecting to products...",
+        showConfirmButton: false,
+        timer: 1400,
+        timerProgressBar: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+      });
       router.push("/products");
-    } else {
-      const data = await res.json().catch(() => ({}));
-      setError(data?.error || "Failed to add product");
+      return;
     }
+
+    const data = await res.json().catch(() => ({}));
+    setError(data?.error || "Failed to add product");
   }
 
   return (
-    <form onSubmit={onSubmit} className="bg-white dark:bg-[#292b51] rounded-xl p-6 shadow space-y-4">
+    <form onSubmit={onSubmit} className="bg-white dark:bg-[#191923] rounded-xl p-6 shadow space-y-4">
       {error ? <p className="text-red-600">{error}</p> : null}
 
       <div>
@@ -95,7 +127,6 @@ export default function AddProductForm() {
         />
       </div>
 
-      {/* NEW: Details field */}
       <div>
         <label className="block mb-1">Details</label>
         <textarea
@@ -106,7 +137,11 @@ export default function AddProductForm() {
         />
       </div>
 
-      <button type="submit" className="cta-btn w-full shadow shadow-[#2a4ba7] dark:shadow-[#b8d9ff]" disabled={loading}>
+      <button
+        type="submit"
+        className="cta-btn w-full shadow shadow-[#2a4ba7] dark:shadow-[#b8d9ff]"
+        disabled={loading}
+      >
         <span>{loading ? "Saving..." : "Save product"}</span>
       </button>
     </form>
