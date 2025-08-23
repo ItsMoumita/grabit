@@ -53,8 +53,8 @@ export default async function ProductHighlights() {
   );
 
   return (
-    <section className="mt-10 md:mt-14">
-      <div className="max-w-6xl mx-auto p-4">
+    <section className="mt-10 md:mt-14 mb-10 md:mb-14">
+      <div className="max-w-11/12 mx-auto p-4">
         <h2 className="text-center text-2xl md:text-3xl font-bold text-[#2a4ba7] dark:text-[#b8d9ff]">
           Product Highlights
         </h2>
