@@ -1,36 +1,150 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://github.com/vercel/next.js/tree/canary/packages/create-next-app).
+```markdown
+# 🛒 Grabit
 
-## Getting Started
+Modern e‑commerce starter built with Next.js (App Router), MongoDB, and NextAuth. Includes auth, protected routes, product CRUD, a hero carousel, product highlights marquee, dark mode, and polished UX with SweetAlert2.
 
-First, run the development server:
+- 🔗 Live Link: https://grabit-7lr5.vercel.app/
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+🏷️ Tech Badges
+Next.js
+React
+Tailwind CSS
+MongoDB
+NextAuth.js
+SweetAlert2
+Vercel
+Node.js 18+
+
+---
+
+## 🧾 Overview
+- 🏷️ Name: Grabit  
+- ✍️ Short Description: A minimal e‑commerce template with user accounts, secure product creation, and a clean, responsive UI. Built for speed and clarity with Next.js App Router and MongoDB.
+
+## ✨ Features
+- 🔐 Auth with NextAuth (email + password, JWT sessions)
+- 🧂 Secure signup API with hashed passwords (bcrypt)
+- 🛡️ Protected dashboard route (Add Product)
+- 🗂️ Products: list, dynamic details page, optional category filter
+- 🎠 Product Highlights marquee (newest items, CSS‑only, pause on hover)
+- 🖼️ Hero carousel on home
+- 🍬 SweetAlert2 feedback for login/register/add‑product/logout
+- 🌗 Dark mode theme toggle
+- 🎨 Tailwind CSS styling
+- 🩺 DB health check endpoint
+- 🚀 Ready for Vercel deployment
+
+## 🧰 Tech Stack
+- Frontend: Next.js (App Router), React 18, Tailwind CSS
+- Auth: NextAuth.js (Credentials) + MongoDBAdapter
+- Database: MongoDB (official Node driver)
+- UX: SweetAlert2
+- Deployment: Vercel
+
+## 🗂️ Folder Structure
+```
+app/
+  api/
+    auth/
+      [...nextauth]/route.js        # NextAuth handler
+      signup/route.js               # POST signup
+    db/
+      ping/route.js                 # DB health check
+    products/route.js               # GET list, POST create (auth)
+  components/
+    Navbar.jsx
+    ThemeToggle.jsx
+    HeroCarousel.jsx
+    ProductHighlights.jsx
+  dashboard/
+    add-product/
+      page.jsx                      # server page (protected)
+      AddProductForm.jsx            # client form + SweetAlert2
+  login/
+    page.jsx                        # server wrapper + Suspense
+    LoginClient.jsx                 # client logic (useSearchParams)
+  register/
+    page.jsx                        # server wrapper + Suspense
+    RegisterClient.jsx              # client logic (useSearchParams)
+  products/
+    page.jsx                        # list (server)
+    [id]/page.jsx                   # details (server)
+  layout.js
+  page.jsx                          # home (hero + highlights)
+  providers.jsx                     # SessionProvider wrapper
+  Footer.jsx
+
+lib/
+  mongodb.js                        # Mongo client + getDb()
+  auth.js                           # NextAuth options (if extracted)
+
+public/
+  hero/ (mens.jpg, womens.jpg, kids.jpg)
+
+app/globals.css                     # Tailwind + theme + cta-btn + marquee
+next.config.mjs
+jsconfig.json
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🛠️ Setup & Installation
+```bash
+git clone <repo-url>
+cd grabit
+npm install
+npm run dev
+```
+Production preview locally:
+```bash
+npm run build
+npm start
+```
 
-You can start editing the page by modifying `app/page.js`. The page auto-updates as you edit the file.
+## 🧭 Route Summary
+- 🌐 Pages
+  - GET `/` — Home (Hero + Product Highlights)
+  - GET `/login` — Login (client under Suspense, SweetAlert2)
+  - GET `/register` — Register (client under Suspense, auto sign‑in + SweetAlert2)
+  - GET `/products` — All products, optional `?category=mens|womens|kids`
+  - GET `/products/[id]` — Product details (with long “Details” section)
+  - GET `/dashboard/add-product` — Protected Add Product
+- 🛠️ APIs
+  - GET `/api/db/ping` — Health check
+  - POST `/api/auth/signup` — Register user ({ name, email, password })
+  - GET `/api/products` — List products (optional `?category=`)
+  - POST `/api/products` — Create product (auth required)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 🧑‍💻 Scripts
+```json
+{
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  }
+}
+```
 
-## Learn More
+## 🎯 Design & UX Highlights
+- Brand‑aligned colors (#2a4ba7 light / #b8d9ff dark) throughout UI
+- CTA button with animated sweep and theme‑aware variables
+- Marquee highlights: seamless loop using duplicated track + CSS mask
+- Login/Register/Add‑product flows with friendly toasts and redirects
+- Mobile‑first navbar with animated underline and responsive menu
 
-To learn more about Next.js, take a look at the following resources:
+## ⚠️ Notes & Gotchas
+- Case‑sensitive filenames matter in production: use `app/page.jsx` (lowercase)
+- Client hooks like `useSearchParams()` are wrapped by Suspense in server pages (`/login`, `/register`)
+- Keep server‑only code (DB helpers) out of client components
+- Avoid Edge runtime for routes using MongoDB/bcrypt
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🗺️ Roadmap
+- Edit/Delete product endpoints and UI
+- Search and advanced filters
+- Role‑based access (admin dashboard)
+- Image uploads + optimization
+- Pagination or infinite scroll on `/products`
+- Stripe checkout
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🤝 Contributing
+Issues and PRs are welcome!
 
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
