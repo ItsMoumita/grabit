@@ -1,19 +1,18 @@
-```markdown
 # 🛒 Grabit
 
 Modern e‑commerce starter built with Next.js (App Router), MongoDB, and NextAuth. Includes auth, protected routes, product CRUD, a hero carousel, product highlights marquee, dark mode, and polished UX with SweetAlert2.
 
 - 🔗 Live Link: https://grabit-7lr5.vercel.app/
 
-🏷️ Tech Badges
-Next.js
-React
-Tailwind CSS
-MongoDB
-NextAuth.js
-SweetAlert2
-Vercel
-Node.js 18+
+## 🏷️ Tech Badges
+![Next.js](https://img.shields.io/badge/Next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
+![Tailwind_CSS](https://img.shields.io/badge/Tailwind_CSS-0F172A?style=for-the-badge&logo=tailwindcss&logoColor=38BDF8)
+![MongoDB](https://img.shields.io/badge/MongoDB-023430?style=for-the-badge&logo=mongodb&logoColor=47A248)
+![NextAuth.js](https://img.shields.io/badge/NextAuth.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white)
+![SweetAlert2](https://img.shields.io/badge/SweetAlert2-59359A?style=for-the-badge&logoColor=white)
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white)
+![Node.js_18+](https://img.shields.io/badge/Node.js-18%2B-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
 ---
 
@@ -93,7 +92,7 @@ cd grabit
 npm install
 npm run dev
 ```
-Production preview locally:
+Local production preview:
 ```bash
 npm run build
 npm start
@@ -113,7 +112,7 @@ npm start
   - GET `/api/products` — List products (optional `?category=`)
   - POST `/api/products` — Create product (auth required)
 
-## 🧑‍💻 Scripts
+## 📦 Scripts
 ```json
 {
   "scripts": {
@@ -132,8 +131,8 @@ npm start
 - Mobile‑first navbar with animated underline and responsive menu
 
 ## ⚠️ Notes & Gotchas
-- Case‑sensitive filenames matter in production: use `app/page.jsx` (lowercase)
-- Client hooks like `useSearchParams()` are wrapped by Suspense in server pages (`/login`, `/register`)
+- Case‑sensitive filenames matter in production (e.g., `app/page.jsx`)
+- Client hooks like `useSearchParams()` are wrapped by Suspense from a Server page (`/login`, `/register`)
 - Keep server‑only code (DB helpers) out of client components
 - Avoid Edge runtime for routes using MongoDB/bcrypt
 
@@ -148,3 +147,5 @@ npm start
 ## 🤝 Contributing
 Issues and PRs are welcome!
 
+## 📄 License
+MIT
