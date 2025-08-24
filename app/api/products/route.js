@@ -1,25 +1,30 @@
 // app/api/products/route.js
+export const runtime = "nodejs"; // required for Mongo/bcrypt
+
 import { getDb } from "@/lib/mongodb";
 import { getServerSession } from "next-auth";
-import { authOptions } from "@/lib/auth";
+import { authOptions } from "@/lib/auth"; // ensure this file exists and exports authOptions
 
 export async function GET(req) {
   try {
     const db = await getDb();
     const { searchParams } = new URL(req.url);
     const category = searchParams.get("category");
+    const limitParam = Number.parseInt(searchParams.get("limit") || "50", 10);
+    const limit = Number.isFinite(limitParam) ? Math.max(1, Math.min(limitParam, 50)) : 50;
 
     const query = category ? { category } : {};
-    const items = await db
+    const docs = await db
       .collection("products")
       .find(query)
-      .sort({ createdAt: -1 })
-      .limit(50)
+      .sort({ createdAt: -1, _id: -1 })
+      .limit(limit)
       .toArray();
 
-    return Response.json({ items });
+    const items = docs.map((d) => ({ ...d, _id: d._id.toString() }));
+    return Response.json({ items }, { status: 200 });
   } catch (err) {
-    console.error(err);
+    console.error("GET /api/products error:", err);
     return Response.json({ error: "Failed to fetch products" }, { status: 500 });
   }
 }
@@ -27,32 +32,34 @@ export async function GET(req) {
 export async function POST(req) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session) {
-      return Response.json({ error: "Unauthorized" }, { status: 401 });
-    }
+    if (!session) return Response.json({ error: "Unauthorized" }, { status: 401 });
 
-    const { title, price, category, image, description, details } = await req.json(); // <- added details
+    const body = await req.json().catch(() => null);
+    if (!body) return Response.json({ error: "Invalid JSON body" }, { status: 400 });
 
-    if (!title || !price || !category) {
+    const { title, price, category, image = "", description = "", details = "" } = body;
+    if (!title || price === undefined || !category) {
       return Response.json({ error: "title, price, and category are required" }, { status: 400 });
     }
 
-    const db = await getDb();
-    const result = await db.collection("products").insertOne({
-      title,
+    const doc = {
+      title: String(title),
       price: Number(price),
-      category,
-      image: image || "",
-      description: description || "",
-      details: details || "", // <- save details
+      category: String(category),
+      image: String(image),
+      description: String(description),
+      details: String(details),
       createdBy: session.user.id,
       createdAt: new Date(),
       updatedAt: new Date(),
-    });
+    };
 
-    return Response.json({ ok: true, id: result.insertedId }, { status: 201 });
+    const db = await getDb();
+    const result = await db.collection("products").insertOne(doc);
+
+    return Response.json({ ok: true, id: result.insertedId.toString() }, { status: 201 });
   } catch (err) {
-    console.error(err);
-    return Response.json({ error: "Failed to create product" }, { status: 500 });
+    console.error("POST /api/products error:", err);
+    return Response.json({ error: err?.message || "Failed to create product" }, { status: 500 });
   }
 }

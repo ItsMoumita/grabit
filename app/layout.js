@@ -1,7 +1,7 @@
-// app/layout.js
 import "./globals.css";
 import { Roboto, Sarina } from "next/font/google";
 import Navbar from "./components/Navbar";
+import PageLoader from "./components/PageLoader";
 import Footer from "./components/Footer";
 import Providers from "./components/Providers";
 
@@ -11,6 +11,7 @@ const roboto = Roboto({
   display: "swap",
   variable: "--font-roboto",
 });
+
 const sarina = Sarina({
   subsets: ["latin"],
   weight: ["400"],
@@ -22,6 +23,9 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={`${roboto.className} ${roboto.variable} ${sarina.variable} min-h-dvh flex flex-col`}>
+        {/* React-controlled full-page loader (initial render, fade out after hydration) */}
+        <PageLoader />
+
         <Providers>
           <Navbar />
           <main className="flex-1">{children}</main>
